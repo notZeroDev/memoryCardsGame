@@ -17,13 +17,15 @@ const icons = [
 let score = 0,
   gameRunning = true;
 // create an array with num length and duplicate each element
+const generateRanodmNumber = function (min, max) {
+  return Math.floor(Math.sqrt(Math.random() * Math.random()) * max + min);
+};
 const createIconsArray = function (num) {
   const iconsCopy = [...icons];
   const iconsArray = new Array(num);
   const indexPick = Array.from(
     { length: num / 2 },
-    (_, i) =>
-      iconsCopy.splice(Math.floor(Math.random() * iconsCopy.length), 1)[0]
+    () => iconsCopy.splice(generateRanodmNumber(0, iconsCopy.length), 1)[0]
   );
   for (let i = 0; i < num; i += 2) {
     iconsArray[i] = iconsArray[i + 1] = indexPick.pop();
@@ -54,7 +56,8 @@ const fillCards = function (number) {
     ).style.backgroundImage = `url('icons/${icon}.png')`;
     card.dataset.value = icon;
   });
-};const init = function (number) {
+};
+const init = function (number) {
   createCards(number);
   fillCards(number);
 };
@@ -109,4 +112,4 @@ cardsContainer.addEventListener("click", function (e) {
 });
 
 // cardsContainer.style.gridTemplateColumns= 'repeat(9, 1fr)';
-init(16); 
+init(16);
