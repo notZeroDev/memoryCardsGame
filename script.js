@@ -44,7 +44,6 @@ const createCards = function (number) {
 };
 const fillCards = function (number) {
   const iconsArray = createIconsArray(number);
-  console.log(iconsArray);
   const cards = document.querySelectorAll(".card");
   cards.forEach((card) => {
     const icon = iconsArray.splice(
