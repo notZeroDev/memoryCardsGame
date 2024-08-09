@@ -57,6 +57,8 @@ const fillCards = function (number) {
   });
 };
 const init = function (number) {
+  cardsContainer.innerHTML = "";
+  score = 0;
   createCards(number);
   fillCards(number);
 };
