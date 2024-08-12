@@ -1,30 +1,101 @@
+/*
+  want to add:
+  - better style to fonts
+  - media query to cards and menu bottons on mobile
+*/
+:root {
+  --main-color: #1c1c1c;
+}
+.hidden {
+  display: none !important;
+}
+* {
+  margin: 0;
+}
 body {
   padding: 0;
   margin: 0;
-}
-.container {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: #240a34;
-  display: grid;
-  grid-template-rows: 2fr 8fr 1fr;
-  justify-content: center;
+  background-color: var(--main-color);
+  transition: background 1s;
 }
-.container h1 {
+header {
+  height: 10vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
   font-size: 3rem;
-  text-align: center;
+  font-weight: bolder;
 }
+body > div {
+  /* selecet first div*/
+  height: 90vh;
+}
+/* landing page */
+.landing {
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+.landing .menu {
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.landing .menu .button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  height: 100px;
+  width: 250px;
+  background-color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/*game board*/
+.container {
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  place-content: center;
+  background-position: left;
+  /* transition: background 1s; */
+}
+.easy {
+  background-color: #88d66c !important;
+}
+
+.medium {
+  background-color: #ffaf00 !important;
+}
+.hard {
+  background-color: #bd3131 !important;
+}
+
 .card-container {
+  height: 80%;
   background-color: #31363f;
   min-width: 40vw;
   max-width: 90vw;
   border-radius: 1rem;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-auto-flow: column;
   gap: 10px;
-  padding: 1rem
+  padding: 1rem;
 }
 .card {
   perspective: 400px;
@@ -33,7 +104,7 @@ body {
   position: relative;
   transform-style: preserve-3d;
 }
-.card div{
+.card div {
   backface-visibility: hidden;
   background-color: aliceblue;
   border-radius: 1rem;
@@ -41,18 +112,18 @@ body {
   height: 100%;
   position: absolute;
   top: 0;
-  left:0;
+  left: 0;
 }
-.card .face{
-  background-color: #76ABAE;
+.card .face {
+  background-color: #76abae;
 }
-.card .back{
-  background-color: #EEEEEE;
+.card .back {
+  background-color: #eeeeee;
   transform: rotateY(180deg);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
-.active{
-  transform: rotateY(180deg) ;
+.active {
+  transform: rotateY(180deg);
 }

@@ -1,3 +1,12 @@
+/*
+  !things to implement
+  - message to descripe each difficulty on hover
+  - timer
+  - message to show winning or losing status
+*/
+const landing = document.querySelector(".landing");
+const menu = document.querySelector(".menu");
+const container = document.querySelector(".container");
 const cardsContainer = document.querySelector(".card-container");
 const icons = [
   "airplane",
@@ -13,9 +22,15 @@ const icons = [
   "person",
   "smiley",
   "umbrella",
+  "google-photos",
+  "laptop",
 ];
 let score = 0,
-  gameRunning = true;
+  difficulty = 1,
+  maxScore = 8;
+rapid = false;
+gameRunning = true;
+//^ game logic
 // create an array with num length and duplicate each element
 const generateRanodmNumber = function (min, max) {
   return Math.floor(Math.sqrt(Math.random() * Math.random()) * max + min);
@@ -56,13 +71,6 @@ const fillCards = function (number) {
     card.dataset.value = icon;
   });
 };
-const init = function (number) {
-  cardsContainer.innerHTML = "";
-  score = 0;
-  createCards(number);
-  fillCards(number);
-};
-
 const resetCards = function () {
   firstCard = secondCard = undefined;
 };
@@ -72,11 +80,70 @@ const clearCards = function () {
   resetCards();
 };
 let firstCard, secondCard, checking;
+const resetGame = function () {
+  cardsContainer.innerHTML = "";
+  resetCards();
+  score = 0;
+};
+//^ style functions
+const gridStyle = function (x, y) {
+  cardsContainer.style.gridTemplateRows = `repeat(${y}, 1fr)`;
+  cardsContainer.style.gridTemplateColumns = `repeat(${x}, 1fr)`;
+};
+const changebg = function (color) {
+  document.documentElement.style.setProperty("--main-color", color);
+};
+const init = function (difficulty) {
+  let number;
+  // reset values
+  resetGame();
+  container.classList.remove("hidden");
+  landing.classList.add("hidden");
+  // switching mode
+  switch (difficulty) {
+    case 0: // main screen
+      container.classList.add("hidden");
+      landing.classList.remove("hidden");
+      changebg("#1c1c1c");
+      break;
+    case 1: // easy
+      number = 16;
+      gridStyle(4, 4);
+      changebg("#88d66c");
+      break;
+    case 2: // medium
+      number = 20;
+      changebg("#ffaf00");
+      gridStyle(5, 4);
+      break;
+    case 3: // hard
+      number = 30;
+      changebg("#bd3131");
+      gridStyle(6, 5);
+      break;
+    case 4: // rapid finished
+      init(0); //! will be replaced
+      break;
+  }
+  maxScore = number / 2;
+  createCards(number);
+  fillCards(number);
+  gameRunning = true;
+};
+
+menu.addEventListener("click", function (e) {
+  const button = e.target.closest(".button");
+  if (!button) return;
+  if (button.classList.contains("rapid")) rapid = true;
+  else rapid = false;
+  console.log(rapid);
+  init(Number(button.dataset.stage));
+  console.log(button.dataset.stage);
+});
 cardsContainer.addEventListener("click", function (e) {
   const card = e.target.closest(".card");
   // clasuer guard
   if (!card || card.classList.contains("active")) return;
-
   // game is not running is we checked two cards and want to stop the holding two cards
   if (!gameRunning) {
     clearTimeout(checking);
@@ -94,11 +161,15 @@ cardsContainer.addEventListener("click", function (e) {
     gameRunning = false; // stop the game until we checks
     if (firstCard.dataset.value === secondCard.dataset.value) {
       score++;
-      if (score == 8) {
+      if (score === maxScore) {
         // End of the game
         gameRunning = false;
         setTimeout(function () {
-          window.location.reload();
+          //*end round
+          // resetGame();
+          if (rapid) init(++difficulty); // will increase difficulty by one
+          else init(0); // return to main menu
+          // window.location.reload();
         }, 1000);
       }
       gameRunning = true;
@@ -112,5 +183,5 @@ cardsContainer.addEventListener("click", function (e) {
   }
 });
 
-// cardsContainer.style.gridTemplateColumns= 'repeat(9, 1fr)';
-init(16);
+// staring game
+init(0);
