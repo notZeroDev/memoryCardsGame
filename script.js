@@ -1,4 +1,8 @@
-//! add main screen
+/*
+  !things to implement
+  - timer
+  - message to show winning or losing status
+*/
 const landing = document.querySelector(".landing");
 const menu = document.querySelector(".menu");
 const container = document.querySelector(".container");
@@ -22,7 +26,8 @@ const icons = [
 ];
 let score = 0,
   difficulty = 1,
-  rapid = false;
+  maxScore = 8;
+rapid = false;
 gameRunning = true;
 //^ game logic
 // create an array with num length and duplicate each element
@@ -119,6 +124,7 @@ const init = function (difficulty) {
       init(0); //! will be replaced
       break;
   }
+  maxScore = number / 2;
   createCards(number);
   fillCards(number);
   gameRunning = true;
@@ -154,7 +160,7 @@ cardsContainer.addEventListener("click", function (e) {
     gameRunning = false; // stop the game until we checks
     if (firstCard.dataset.value === secondCard.dataset.value) {
       score++;
-      if (score == 1) {
+      if (score === maxScore) {
         // End of the game
         gameRunning = false;
         setTimeout(function () {
