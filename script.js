@@ -14,6 +14,8 @@ const icons = [
   "person",
   "smiley",
   "umbrella",
+  "google-photos",
+  "laptop",
 ];
 let score = 0,
   difficulty = 1,
@@ -79,10 +81,10 @@ const init = function (difficulty) {
       console.log("here", difficulty);
       break;
     case 3: // hard
-      number = 26;
+      number = 30;
       container.classList.add("hard");
-      cardsContainer.style.gridTemplateRows = 'repeat(5, 1fr)';
-      cardsContainer.style.gridTemplateColumns = 'repeat(6, 1fr)';
+      cardsContainer.style.gridTemplateRows = "repeat(5, 1fr)";
+      cardsContainer.style.gridTemplateColumns = "repeat(6, 1fr)";
       break;
     case 4: // game finished
       resetGame();
