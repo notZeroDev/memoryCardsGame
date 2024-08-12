@@ -1,3 +1,6 @@
+//! add main screen
+const landing = document.querySelector(".landing");
+const menu = document.querySelector(".menu");
 const container = document.querySelector(".container");
 const cardsContainer = document.querySelector(".card-container");
 const icons = [
@@ -19,8 +22,9 @@ const icons = [
 ];
 let score = 0,
   difficulty = 1,
-  rapid = true;
+  rapid = false;
 gameRunning = true;
+//^ game logic
 // create an array with num length and duplicate each element
 const generateRanodmNumber = function (min, max) {
   return Math.floor(Math.sqrt(Math.random() * Math.random()) * max + min);
@@ -61,40 +65,6 @@ const fillCards = function (number) {
     card.dataset.value = icon;
   });
 };
-const init = function (difficulty) {
-  let number;
-  // reset values
-  cardsContainer.innerHTML = "";
-  score = 0;
-  container.classList.remove("easy");
-  container.classList.remove("medium");
-  container.classList.remove("hard");
-  // switching mode
-  switch (difficulty) {
-    case 1: // easy
-      number = 16;
-      container.classList.add("easy");
-      break;
-    case 2: // medium
-      number = 20;
-      container.classList.add("medium");
-      console.log("here", difficulty);
-      break;
-    case 3: // hard
-      number = 30;
-      container.classList.add("hard");
-      cardsContainer.style.gridTemplateRows = "repeat(5, 1fr)";
-      cardsContainer.style.gridTemplateColumns = "repeat(6, 1fr)";
-      break;
-    case 4: // game finished
-      resetGame();
-      break;
-  }
-  createCards(number);
-  fillCards(number);
-  gameRunning = true;
-};
-
 const resetCards = function () {
   firstCard = secondCard = undefined;
 };
@@ -104,19 +74,69 @@ const clearCards = function () {
   resetCards();
 };
 let firstCard, secondCard, checking;
-//^ we may delete it
 const resetGame = function () {
-  firstCard = secondCard = undefined;
+  cardsContainer.innerHTML = "";
+  resetCards();
   score = 0;
-  cardsContainer
-    .querySelectorAll(".card")
-    .forEach((card) => card.classList.remove("active"));
 };
+//^ style functions
+const gridStyle = function (x, y) {
+  cardsContainer.style.gridTemplateRows = `repeat(${y}, 1fr)`;
+  cardsContainer.style.gridTemplateColumns = `repeat(${x}, 1fr)`;
+};
+const changebg = function (color) {
+  document.documentElement.style.setProperty("--main-color", color);
+};
+const init = function (difficulty) {
+  let number;
+  // reset values
+  resetGame();
+  container.classList.remove("hidden");
+  landing.classList.add("hidden");
+  // switching mode
+  switch (difficulty) {
+    case 0: // main screen
+      container.classList.add("hidden");
+      landing.classList.remove("hidden");
+      changebg("#1c1c1c");
+      break;
+    case 1: // easy
+      number = 16;
+      gridStyle(4, 4);
+      changebg("#88d66c");
+      break;
+    case 2: // medium
+      number = 20;
+      changebg("#ffaf00");
+      gridStyle(5, 4);
+      break;
+    case 3: // hard
+      number = 30;
+      changebg("#bd3131");
+      gridStyle(6, 5);
+      break;
+    case 4: // rapid finished
+      init(0); //! will be replaced
+      break;
+  }
+  createCards(number);
+  fillCards(number);
+  gameRunning = true;
+};
+
+menu.addEventListener("click", function (e) {
+  const button = e.target.closest(".button");
+  if (!button) return;
+  if (button.classList.contains("rapid")) rapid = true;
+  else rapid = false;
+  console.log(rapid);
+  init(Number(button.dataset.stage));
+  console.log(button.dataset.stage);
+});
 cardsContainer.addEventListener("click", function (e) {
   const card = e.target.closest(".card");
   // clasuer guard
   if (!card || card.classList.contains("active")) return;
-
   // game is not running is we checked two cards and want to stop the holding two cards
   if (!gameRunning) {
     clearTimeout(checking);
@@ -139,10 +159,9 @@ cardsContainer.addEventListener("click", function (e) {
         gameRunning = false;
         setTimeout(function () {
           //*end round
-          document.querySelector(".container").classList.add("medium");
           // resetGame();
           if (rapid) init(++difficulty); // will increase difficulty by one
-          else init(4); // will end the game
+          else init(0); // return to main menu
           // window.location.reload();
         }, 1000);
       }
@@ -157,6 +176,5 @@ cardsContainer.addEventListener("click", function (e) {
   }
 });
 
-init(difficulty);
-// setTimeout((_) => document.querySelector(".container").classList.add("medium"), 3000);
-// setTimeout((_) => document.querySelector(".container").classList.add("hard"), 6000);
+// staring game
+init(0);

@@ -9,45 +9,89 @@
     #ff033e,
     #ef0107
   );
-
+  --main-color: #1c1c1c;
+}
+.hidden {
+  display: none !important;
+}
+* {
+  margin: 0;
 }
 body {
   padding: 0;
   margin: 0;
-}
-.container {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  /*  background-color: #240a34;*/
-  /* background-image: var(--gradient); */
-  background-color: #88d66c;
-  background-size: 1300%;
-
-  display: grid;
-  grid-template-rows: 2fr 8fr 1fr;
-  justify-content: center;
-  background-position: left;
+  background-color: var(--main-color);
   transition: background 1s;
 }
-.easy {
-  /* background-position: 0 0;
-  */
-  background-color: #88d66c;
-}
-.medium {
-  /* background-position: 50%; */
-  background-color: #ffaf00;
-}
-.hard {
-  background-color: #bd3131;
-}
-.container h1 {
+header {
+  height: 10vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
   font-size: 3rem;
-  text-align: center;
+  font-weight: bolder;
 }
+body > div {
+  /* selecet first div*/
+  height: 90vh;
+}
+/* landing page */
+.landing {
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+.landing .menu {
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.landing .menu .button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  height: 100px;
+  width: 250px;
+  background-color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/*game board*/
+.container {
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  place-content: center;
+  background-position: left;
+  /* transition: background 1s; */
+}
+.easy {
+  background-color: #88d66c !important;
+}
+
+.medium {
+  background-color: #ffaf00 !important;
+}
+.hard {
+  background-color: #bd3131 !important;
+}
+
 .card-container {
+  height: 80%;
   background-color: #31363f;
   min-width: 40vw;
   max-width: 90vw;
