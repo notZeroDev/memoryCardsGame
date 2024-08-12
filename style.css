@@ -4,6 +4,18 @@
   - media query to cards and menu bottons on mobile
 */
 :root {
+  --gradient: linear-gradient(-190deg, #f9e400, #ffaf00);
+  --gradient: linear-gradient(
+    -190deg,
+    #88d66c,
+    #6effc7,
+    #f9e400,
+    #ffaf00,
+    #ff033e,
+    #ef0107
+  );
+  --main-color: #1c1c1c;
+}
 .hidden {
   display: none !important;
 }
