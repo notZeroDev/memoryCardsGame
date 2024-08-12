@@ -1,3 +1,15 @@
+:root {
+  --gradient: linear-gradient(-190deg, #f9e400, #ffaf00);
+  --gradient: linear-gradient(
+    -190deg,
+    #88d66c,
+    #6effc7,
+    #f9e400,
+    #ffaf00,
+    #ff033e,
+    #ef0107
+  );
+}
 body {
   padding: 0;
   margin: 0;
@@ -6,10 +18,24 @@ body {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: #240a34;
+  /*  background-color: #240a34;*/
+  background-image: var(--gradient);
+  background-size: 1300%;
+
   display: grid;
   grid-template-rows: 2fr 8fr 1fr;
   justify-content: center;
+  background-position: left;
+  transition: background-position 1.5s;
+}
+.easy {
+  background-position: 0 0;
+}
+.medium {
+  background-position: 50%;
+}
+.hard {
+  background-position: 100%;
 }
 .container h1 {
   color: white;
@@ -24,7 +50,7 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
-  padding: 1rem
+  padding: 1rem;
 }
 .card {
   perspective: 400px;
@@ -33,7 +59,7 @@ body {
   position: relative;
   transform-style: preserve-3d;
 }
-.card div{
+.card div {
   backface-visibility: hidden;
   background-color: aliceblue;
   border-radius: 1rem;
@@ -41,18 +67,18 @@ body {
   height: 100%;
   position: absolute;
   top: 0;
-  left:0;
+  left: 0;
 }
-.card .face{
-  background-color: #76ABAE;
+.card .face {
+  background-color: #76abae;
 }
-.card .back{
-  background-color: #EEEEEE;
+.card .back {
+  background-color: #eeeeee;
   transform: rotateY(180deg);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
-.active{
-  transform: rotateY(180deg) ;
+.active {
+  transform: rotateY(180deg);
 }

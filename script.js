@@ -98,7 +98,9 @@ cardsContainer.addEventListener("click", function (e) {
         // End of the game
         gameRunning = false;
         setTimeout(function () {
-          window.location.reload();
+          //! add level update here and add reset game function
+          document.querySelector(".container").classList.add("medium");
+          // window.location.reload();
         }, 1000);
       }
       gameRunning = true;
@@ -114,3 +116,5 @@ cardsContainer.addEventListener("click", function (e) {
 
 // cardsContainer.style.gridTemplateColumns= 'repeat(9, 1fr)';
 init(16);
+// setTimeout((_) => document.querySelector(".container").classList.add("medium"), 3000);
+// setTimeout((_) => document.querySelector(".container").classList.add("hard"), 6000);
