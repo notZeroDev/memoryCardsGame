@@ -72,6 +72,12 @@ const clearCards = function () {
   resetCards();
 };
 let firstCard, secondCard, checking;
+const resetGame = function(){
+  firstCard = secondCard = undefined;
+  score = 0;
+  cardsContainer.querySelectorAll('.card').forEach(card => card.classList.remove("active"))
+
+}
 cardsContainer.addEventListener("click", function (e) {
   const card = e.target.closest(".card");
   // clasuer guard
@@ -94,12 +100,14 @@ cardsContainer.addEventListener("click", function (e) {
     gameRunning = false; // stop the game until we checks
     if (firstCard.dataset.value === secondCard.dataset.value) {
       score++;
-      if (score == 8) {
+      if (score == 1) {
         // End of the game
         gameRunning = false;
         setTimeout(function () {
           //! add level update here and add reset game function
           document.querySelector(".container").classList.add("medium");
+          resetGame();
+          init(20)
           // window.location.reload();
         }, 1000);
       }
