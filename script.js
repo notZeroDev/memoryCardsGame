@@ -1,5 +1,6 @@
 /*
   !things to implement
+  - message to descripe each difficulty on hover
   - timer
   - message to show winning or losing status
 */
