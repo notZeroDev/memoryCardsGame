@@ -1,3 +1,4 @@
+const container = document.querySelector(".container");
 const cardsContainer = document.querySelector(".card-container");
 const icons = [
   "airplane",
@@ -15,7 +16,9 @@ const icons = [
   "umbrella",
 ];
 let score = 0,
-  gameRunning = true;
+  difficulty = 1,
+  rapid = true;
+gameRunning = true;
 // create an array with num length and duplicate each element
 const generateRanodmNumber = function (min, max) {
   return Math.floor(Math.sqrt(Math.random() * Math.random()) * max + min);
@@ -56,11 +59,38 @@ const fillCards = function (number) {
     card.dataset.value = icon;
   });
 };
-const init = function (number) {
+const init = function (difficulty) {
+  let number;
+  // reset values
   cardsContainer.innerHTML = "";
   score = 0;
+  container.classList.remove("easy");
+  container.classList.remove("medium");
+  container.classList.remove("hard");
+  // switching mode
+  switch (difficulty) {
+    case 1: // easy
+      number = 16;
+      container.classList.add("easy");
+      break;
+    case 2: // medium
+      number = 20;
+      container.classList.add("medium");
+      console.log("here", difficulty);
+      break;
+    case 3: // hard
+      number = 26;
+      container.classList.add("hard");
+      cardsContainer.style.gridTemplateRows = 'repeat(5, 1fr)';
+      cardsContainer.style.gridTemplateColumns = 'repeat(6, 1fr)';
+      break;
+    case 4: // game finished
+      resetGame();
+      break;
+  }
   createCards(number);
   fillCards(number);
+  gameRunning = true;
 };
 
 const resetCards = function () {
@@ -72,12 +102,14 @@ const clearCards = function () {
   resetCards();
 };
 let firstCard, secondCard, checking;
-const resetGame = function(){
+//^ we may delete it
+const resetGame = function () {
   firstCard = secondCard = undefined;
   score = 0;
-  cardsContainer.querySelectorAll('.card').forEach(card => card.classList.remove("active"))
-
-}
+  cardsContainer
+    .querySelectorAll(".card")
+    .forEach((card) => card.classList.remove("active"));
+};
 cardsContainer.addEventListener("click", function (e) {
   const card = e.target.closest(".card");
   // clasuer guard
@@ -104,10 +136,11 @@ cardsContainer.addEventListener("click", function (e) {
         // End of the game
         gameRunning = false;
         setTimeout(function () {
-          //! add level update here and add reset game function
+          //*end round
           document.querySelector(".container").classList.add("medium");
-          resetGame();
-          init(20)
+          // resetGame();
+          if (rapid) init(++difficulty); // will increase difficulty by one
+          else init(4); // will end the game
           // window.location.reload();
         }, 1000);
       }
@@ -122,7 +155,6 @@ cardsContainer.addEventListener("click", function (e) {
   }
 });
 
-// cardsContainer.style.gridTemplateColumns= 'repeat(9, 1fr)';
-init(16);
+init(difficulty);
 // setTimeout((_) => document.querySelector(".container").classList.add("medium"), 3000);
 // setTimeout((_) => document.querySelector(".container").classList.add("hard"), 6000);
