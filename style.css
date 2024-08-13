@@ -134,8 +134,8 @@ body > div {
   color: #000;
   height: -webkit-fill-available;
   display: grid;
-  grid-template-rows: 1fr 1fr 3fr;
-  align-items: center;
+  grid-template-rows: 4fr 1fr 6fr;
+  place-items: center;
   justify-content: center;
 }
 .container .timer{
@@ -146,14 +146,14 @@ body > div {
 }
 .container .menu-button{
   height: 3rem;
+  width: 15rem;
   font-size: 1.5rem;
   text-transform: capitalize;
-  width: auto;
   background-color: #1c1c1c;
   color: white;
   display: flex;
   justify-content: center;
-  align-items: center;
+  place-items: center;
   border-radius: 5px;
   cursor: pointer;
 }
