@@ -93,6 +93,9 @@ const gridStyle = function (x, y) {
 const changebg = function (color) {
   document.documentElement.style.setProperty("--main-color", color);
 };
+changeHeaderColor = function(iswhite){
+  document.documentElement.style.setProperty("--header-color", `${iswhite ? '#fff' : '#1E201E'}`);
+}
 const init = function (difficulty) {
   let number;
   // reset values
@@ -105,21 +108,25 @@ const init = function (difficulty) {
       container.classList.add("hidden");
       landing.classList.remove("hidden");
       changebg("#1c1c1c");
+      changeHeaderColor(true);
       break;
     case 1: // easy
       number = 16;
       gridStyle(4, 4);
       changebg("#88d66c");
+      changeHeaderColor(false);
       break;
     case 2: // medium
       number = 20;
       changebg("#ffaf00");
       gridStyle(5, 4);
+      changeHeaderColor(false);
       break;
     case 3: // hard
       number = 30;
       changebg("#bd3131");
       gridStyle(6, 5);
+      changeHeaderColor(false);
       break;
     case 4: // rapid finished
       init(0); //! will be replaced

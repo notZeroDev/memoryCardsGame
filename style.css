@@ -5,6 +5,7 @@
 */
 :root {
   --main-color: #1c1c1c;
+  --header-color: #fff;
 }
 .hidden {
   display: none !important;
@@ -27,12 +28,13 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: var(--header-color);
   font-size: 3rem;
   font-weight: bolder;
+  transition: color 1s;
 }
+/* select first div*/
 body > div {
-  /* selecet first div*/
   height: 90vh;
 }
 /* landing page */
