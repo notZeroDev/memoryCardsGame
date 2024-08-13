@@ -8,6 +8,7 @@ const landing = document.querySelector(".landing");
 const menu = document.querySelector(".menu");
 const container = document.querySelector(".container");
 const cardsContainer = document.querySelector(".card-container");
+const menuButton = document.querySelector(".menu-button");
 const icons = [
   "airplane",
   "bell",
@@ -27,7 +28,8 @@ const icons = [
 ];
 let score = 0,
   difficulty = 1,
-  maxScore = 8;
+  maxScore = 8,
+  timer = 20;
 rapid = false;
 gameRunning = true;
 //^ game logic
@@ -93,9 +95,12 @@ const gridStyle = function (x, y) {
 const changebg = function (color) {
   document.documentElement.style.setProperty("--main-color", color);
 };
-changeHeaderColor = function(iswhite){
-  document.documentElement.style.setProperty("--header-color", `${iswhite ? '#fff' : '#1E201E'}`);
-}
+changeHeaderColor = function (iswhite) {
+  document.documentElement.style.setProperty(
+    "--header-color",
+    `${iswhite ? "#fff" : "#1E201E"}`
+  );
+};
 const init = function (difficulty) {
   let number;
   // reset values
@@ -137,7 +142,6 @@ const init = function (difficulty) {
   fillCards(number);
   gameRunning = true;
 };
-
 menu.addEventListener("click", function (e) {
   const button = e.target.closest(".button");
   if (!button) return;
@@ -189,6 +193,6 @@ cardsContainer.addEventListener("click", function (e) {
     }
   }
 });
-
+menuButton.addEventListener("click", (_) => init(0));
 // staring game
-init(0);
+init(2);

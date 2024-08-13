@@ -67,12 +67,11 @@ body > div {
 /*game board*/
 .container {
   overflow: hidden;
-
+ /*^ we may replace it with grid */
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction:row ;
+  justify-content:space-evenly;
   align-items: center;
-  place-content: center;
   background-position: left;
   /* transition: background 1s; */
 }
@@ -128,4 +127,33 @@ body > div {
 }
 .active {
   transform: rotateY(180deg);
+}
+/* side menu */
+.container .side-menu{
+  /* background-color: #fff; */
+  color: #000;
+  height: -webkit-fill-available;
+  display: grid;
+  grid-template-rows: 1fr 1fr 3fr;
+  align-items: center;
+  justify-content: center;
+}
+.container .timer{
+  font-size: 10rem;
+}
+.container .tries{
+  font-size: 3rem;
+}
+.container .menu-button{
+  height: 3rem;
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  width: auto;
+  background-color: #1c1c1c;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  cursor: pointer;
 }
