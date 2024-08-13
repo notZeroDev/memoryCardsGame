@@ -1,6 +1,5 @@
 /*
   !things to implement
-  - message to descripe each difficulty on hover
   - timer
   - message to show winning or losing status
 */
@@ -9,6 +8,7 @@ const menu = document.querySelector(".menu");
 const container = document.querySelector(".container");
 const cardsContainer = document.querySelector(".card-container");
 const menuButton = document.querySelector(".menu-button");
+const modeDescrip = document.querySelector(".description");
 const icons = [
   "airplane",
   "bell",
@@ -107,6 +107,7 @@ const init = function (difficulty) {
   resetGame();
   container.classList.remove("hidden");
   landing.classList.add("hidden");
+  modeDescrip.textContent = "";
   // switching mode
   switch (difficulty) {
     case 0: // main screen
@@ -115,6 +116,7 @@ const init = function (difficulty) {
       changebg("#1c1c1c");
       changeHeaderColor(true);
       break;
+    case -1: //rapid
     case 1: // easy
       number = 16;
       gridStyle(4, 4);
@@ -133,7 +135,7 @@ const init = function (difficulty) {
       gridStyle(6, 5);
       changeHeaderColor(false);
       break;
-    case 4: // rapid finished
+    case 5: // game end
       init(0); //! will be replaced
       break;
   }
@@ -145,11 +147,43 @@ const init = function (difficulty) {
 menu.addEventListener("click", function (e) {
   const button = e.target.closest(".button");
   if (!button) return;
-  if (button.classList.contains("rapid")) rapid = true;
+  if (Number(button.dataset.stage) === -1) rapid = true;
   else rapid = false;
-  console.log(rapid);
   init(Number(button.dataset.stage));
   console.log(button.dataset.stage);
+});
+menu.addEventListener("mousemove", function (e) {
+  const button = e.target.closest(".button");
+  if (!button) {
+    //! DRY
+    modeDescrip.textContent = "";
+    return;
+  }
+  const stage = Number(button.dataset.stage);
+  let pairs, time;
+  switch (stage) {
+    case -1:
+      modeDescrip.textContent = "finish all modes under 1 minute";
+      return;
+    case 1:
+      pairs = 8;
+      time = 20;
+      break;
+    case 2:
+      pairs = 10;
+      time = 30;
+      break;
+    case 3:
+      pairs = 15;
+      time = 45;
+      break;
+    default:
+      break;
+  }
+  modeDescrip.textContent = `match ${pairs} pairs under ${time} secconds`;
+});
+menu.addEventListener("mouseleave", (_) => {
+  modeDescrip.textContent = "";
 });
 cardsContainer.addEventListener("click", function (e) {
   const card = e.target.closest(".card");
@@ -195,4 +229,4 @@ cardsContainer.addEventListener("click", function (e) {
 });
 menuButton.addEventListener("click", (_) => init(0));
 // staring game
-init(2);
+init(0);

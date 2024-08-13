@@ -63,7 +63,13 @@ body > div {
   border-radius: 10px;
   cursor: pointer;
 }
-
+.landing .description{
+  /* background-color: #fff; */
+  height: 10vh;
+  font-size: 1.4rem;
+  color: #E5D283;
+  text-transform: capitalize;
+}
 /*game board*/
 .container {
   overflow: hidden;
