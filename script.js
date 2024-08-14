@@ -1,7 +1,3 @@
-/*
-  !things to implement
-  - message to show winning or losing status
-*/
 "use strict";
 const landing = document.querySelector(".landing");
 const menu = document.querySelector(".menu");
@@ -112,7 +108,7 @@ const changeHeaderColor = function (iswhite) {
     `${iswhite ? "#fff" : "#1E201E"}`
   );
 };
-//^ DOM
+//^ DOM components
 const timerFunction = function () {
   if (timer === 0) {
     endGame();
@@ -150,10 +146,6 @@ const init = function (difficulty) {
       maxTimer = 150;
       startTimer(150);
     case 1: // easy
-      // timerDisplay.textContent = timer;
-      // timerInterval = setInterval(function () {
-      //   timerDisplay.textContent = --timer;
-      // }, 1000);
       if (!rapid) {
         mode = "easy";
         maxTimer = 40;
@@ -164,7 +156,7 @@ const init = function (difficulty) {
       changebg("#88d66c");
       changeHeaderColor(false);
       break;
-    case 2: // medium
+    case 2: // medium mode
       if (!rapid) {
         mode = "medium";
         maxTimer = 60;
@@ -175,7 +167,7 @@ const init = function (difficulty) {
       gridStyle(5, 4);
       changeHeaderColor(false);
       break;
-    case 3: // hard
+    case 3: // hard mode
       if (!rapid) {
         mode = "easy";
         maxTimer = 70;
@@ -195,7 +187,7 @@ const init = function (difficulty) {
 const endGame = function (iswinning = false) {
   gameRunning = false;
   clearInterval(timerInterval);
-  //^ add checking display winning or losing
+  // show the end game message
   message.classList.remove("hidden");
   if (iswinning) {
     messageHeader.textContent = "great work";
@@ -209,6 +201,11 @@ const endGame = function (iswinning = false) {
     messageDetail.textContent = "try again";
   }
 };
+
+
+//^ event handlers
+
+// landing page
 menu.addEventListener("click", function (e) {
   const button = e.target.closest(".button");
   if (!button) return;
@@ -248,6 +245,8 @@ menu.addEventListener("mousemove", function (e) {
 menu.addEventListener("mouseleave", (_) => {
   modeDescrip.textContent = "";
 });
+
+// game events
 cardsContainer.addEventListener("click", function (e) {
   if (timer === -1 || score === maxScore) return;
   // clear both cards
@@ -272,26 +271,15 @@ cardsContainer.addEventListener("click", function (e) {
     gameRunning = false; // stop the game until we checks
     if (firstCard.dataset.value === secondCard.dataset.value) {
       score++;
-      //! return it
       if (score === maxScore) {
         // End of the game
         gameRunning = false;
         clearInterval(timerFunction);
-        // console.log(timer);
-        // }
-        // if (!rapid || difficulty === 3) {
-        //   endGame();
-        // }
-        if (!rapid || difficulty === 3) {
-          // setTimeout(endGame, 500, true);
+        if (!rapid || difficulty === 3) { // game winnig
           endGame(true);
         } else {
           setTimeout(function () {
-            //*end round
-            // resetGame();
             init(++difficulty); // will increase difficulty by one
-            // else endGame(); // return to main menu
-            // window.location.reload();
           }, 500);
         }
       }

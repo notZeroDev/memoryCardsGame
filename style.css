@@ -1,8 +1,3 @@
-/*
-  want to add:
-  - better style to fonts
-  - media query to cards and menu bottons on mobile
-*/
 :root {
   --main-color: #1c1c1c;
   --header-color: #fff;
@@ -12,13 +7,13 @@
 }
 * {
   margin: 0;
+  font-family: "Robot", sans-serif;
 }
 body {
   padding: 0;
   margin: 0;
   height: 100vh;
   width: 100vw;
-  /* overflow: hidden; */
   background-color: var(--main-color);
   transition: background 1s;
 }
@@ -39,6 +34,7 @@ body > div {
 }
 /* landing page */
 .landing {
+  text-transform: capitalize;
   color: white;
   display: flex;
   justify-content: space-around;
@@ -51,6 +47,10 @@ body > div {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  gap: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: capitalize;
 }
 .landing .menu .button {
   display: flex;
@@ -64,22 +64,33 @@ body > div {
   cursor: pointer;
 }
 .landing .description {
-  /* background-color: #fff; */
   height: 10vh;
   font-size: 1.4rem;
   color: #e5d283;
   text-transform: capitalize;
 }
+
+@media (max-width: 650px) {
+  .description {
+    display: none;
+  }
+  .landing .menu {
+    flex-direction: column;
+  }
+}
+
 /*game board*/
 .container {
-  overflow: hidden;
-  /*^ we may replace it with grid */
-  display: flex;
-  flex-direction: row;
+  box-sizing: border-box;
+  padding: 2rem;
+  display: grid;
   justify-content: space-evenly;
-  align-items: center;
-  background-position: left;
-  /* transition: background 1s; */
+  place-items: center;
+  text-align: center;
+  grid-template-areas:
+    "c timer"
+    "c tries"
+    "c button";
 }
 .easy {
   background-color: #88d66c !important;
@@ -93,10 +104,10 @@ body > div {
 }
 
 .card-container {
-  height: 80%;
+  grid-area: c;
   background-color: #31363f;
-  min-width: 40vw;
-  max-width: 90vw;
+  height: 90%;
+  width: 45vw;
   border-radius: 1rem;
   display: grid;
   grid-template-rows: repeat(4, 1fr);
@@ -134,21 +145,17 @@ body > div {
 .active {
   transform: rotateY(180deg);
 }
-/* side menu */
-.container .side-menu {
-  /* background-color: #fff; */
-  color: #000;
-  height: -webkit-fill-available;
-  display: grid;
-  grid-template-rows: 4fr 1fr 6fr;
-  place-items: center;
-  justify-content: center;
-}
 .container .timer {
+  grid-area: timer;
   font-size: 10rem;
 }
 .container .tries {
+  min-width: 30vw;
+  grid-area: tries;
   font-size: 3rem;
+}
+.container .menu-button {
+  grid-area: button;
 }
 .menu-button {
   height: 3rem;
@@ -163,6 +170,32 @@ body > div {
   border-radius: 5px;
   cursor: pointer;
 }
+@media (max-width: 900px) {
+  .container {
+    grid-template-areas:
+      "timer tries"
+      "c c"
+      "c c"
+      "c c"
+      "c c"
+      "c c"
+      "button button";
+  }
+  .side-menu {
+    width: -webkit-fill-available;
+  }
+  .container .timer {
+    font-size: 3rem;
+  }
+  .container .tries {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  .card-container {
+    width: 100%;
+    height: 100%;
+  }
+}
 
 .message {
   font-size: 2rem;
@@ -170,7 +203,6 @@ body > div {
   top: 0;
   height: 100%;
   width: 100%;
-  /* background-color: #fff; */
   display: flex;
   justify-content: center;
   opacity: 0;
@@ -190,7 +222,7 @@ body > div {
   text-transform: capitalize;
   background-color: #ffae00;
   height: 100%;
-  min-width: 50%;
+  width: 50%;
   padding: 20px;
   display: grid;
   grid-template-rows: 3fr 5fr 2fr;
@@ -198,8 +230,13 @@ body > div {
   place-items: center;
   text-align: center;
 }
+@media (max-width: 450px) {
+  .message .body {
+    width: 100%;
+  }
+}
 @keyframes show-message {
-  to{
+  to {
     opacity: 100;
-  } 
+  }
 }
