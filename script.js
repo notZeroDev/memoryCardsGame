@@ -1,6 +1,5 @@
 /*
   !things to implement
-  - timer
   - message to show winning or losing status
 */
 "use strict";
@@ -143,7 +142,7 @@ const init = function (difficulty) {
       // timerInterval = setInterval(function () {
       //   timerDisplay.textContent = --timer;
       // }, 1000);
-      if (!rapid) startTimer(30);
+      if (!rapid) startTimer(40);
       number = 16;
       gridStyle(4, 4);
       changebg("#88d66c");
@@ -173,7 +172,7 @@ const endGame = function () {
   gameRunning = false;
   clearInterval(timerInterval);
   //^ add checking display winning or losing
-  console.log("game ended");
+console.log('game ended')
 };
 menu.addEventListener("click", function (e) {
   const button = e.target.closest(".button");
@@ -181,7 +180,6 @@ menu.addEventListener("click", function (e) {
   if (Number(button.dataset.stage) === -1) rapid = true;
   else rapid = false;
   init(Number(button.dataset.stage));
-  console.log(button.dataset.stage);
 });
 menu.addEventListener("mousemove", function (e) {
   const button = e.target.closest(".button");
@@ -218,6 +216,8 @@ menu.addEventListener("mouseleave", (_) => {
 });
 cardsContainer.addEventListener("click", function (e) {
   //!fix on end still clicking
+  if (timer === -1 || score === maxScore) return;
+  // clear both cards
   if (!gameRunning) {
     clearTimeout(checking);
     clearCards();
@@ -240,24 +240,27 @@ cardsContainer.addEventListener("click", function (e) {
     if (firstCard.dataset.value === secondCard.dataset.value) {
       score++;
       //! return it
-      if (score === 1) {
+      if (score === maxScore) {
         // End of the game
         gameRunning = false;
-        if (!rapid || difficulty === 3) {
-          clearInterval(timerFunction);
-          console.log(timer);
-        }
+        // if (!rapid || difficulty === 3) {
+        clearInterval(timerFunction);
+        // console.log(timer);
+        // }
         // if (!rapid || difficulty === 3) {
         //   endGame();
         // }
-        setTimeout(function () {
-          //*end round
-          // resetGame();
-          if (!rapid || difficulty === 3) endGame();
-          else init(++difficulty); // will increase difficulty by one
-          // else endGame(); // return to main menu
-          // window.location.reload();
-        }, 1000);
+        if (!rapid || difficulty === 3) {
+          endGame();
+        } else {
+          setTimeout(function () {
+            //*end round
+            // resetGame();
+            init(++difficulty); // will increase difficulty by one
+            // else endGame(); // return to main menu
+            // window.location.reload();
+          }, 500);
+        }
       }
       gameRunning = true;
       resetCards();
