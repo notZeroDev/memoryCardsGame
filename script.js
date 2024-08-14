@@ -30,6 +30,7 @@ const icons = [
   "laptop",
 ];
 let score = 0,
+  tries = 0,
   difficulty = 1,
   maxScore = 8,
   timer = 20,
@@ -90,6 +91,7 @@ const resetGame = function () {
   cardsContainer.innerHTML = "";
   resetCards();
   score = 0;
+  if (!rapid) tries = 0;
 };
 //^ style functions
 const gridStyle = function (x, y) {
@@ -124,6 +126,7 @@ const init = function (difficulty) {
   container.classList.remove("hidden");
   landing.classList.add("hidden");
   modeDescrip.textContent = "";
+  triesDisplay.textContent = tries;
   // switching mode
   switch (difficulty) {
     case 0: // main screen
@@ -230,6 +233,7 @@ cardsContainer.addEventListener("click", function (e) {
     firstCard.classList.add("active");
   } else {
     // selecting two cards
+    triesDisplay.textContent = ++tries;
     secondCard = card;
     secondCard.classList.add("active");
     gameRunning = false; // stop the game until we checks
@@ -239,7 +243,10 @@ cardsContainer.addEventListener("click", function (e) {
       if (score === 1) {
         // End of the game
         gameRunning = false;
-        if (!rapid || difficulty === 3) clearInterval(timerFunction);
+        if (!rapid || difficulty === 3) {
+          clearInterval(timerFunction);
+          console.log(timer);
+        }
         // if (!rapid || difficulty === 3) {
         //   endGame();
         // }
