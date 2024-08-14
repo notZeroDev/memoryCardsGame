@@ -172,7 +172,7 @@ const endGame = function () {
   gameRunning = false;
   clearInterval(timerInterval);
   //^ add checking display winning or losing
-console.log('game ended')
+  console.log("game ended");
 };
 menu.addEventListener("click", function (e) {
   const button = e.target.closest(".button");
@@ -192,30 +192,29 @@ menu.addEventListener("mousemove", function (e) {
   let pairs, time;
   switch (stage) {
     case -1:
-      modeDescrip.textContent = "finish all modes under 1 minute";
+      modeDescrip.textContent = "finish all modes under 150 seconds";
       return;
     case 1:
       pairs = 8;
-      time = 20;
+      time = 40;
       break;
     case 2:
       pairs = 10;
-      time = 30;
+      time = 60;
       break;
     case 3:
       pairs = 15;
-      time = 45;
+      time = 70;
       break;
     default:
       break;
   }
-  modeDescrip.textContent = `match ${pairs} pairs under ${time} secconds`;
+  modeDescrip.textContent = `match ${pairs} pairs under ${time} seconds`;
 });
 menu.addEventListener("mouseleave", (_) => {
   modeDescrip.textContent = "";
 });
 cardsContainer.addEventListener("click", function (e) {
-  //!fix on end still clicking
   if (timer === -1 || score === maxScore) return;
   // clear both cards
   if (!gameRunning) {
