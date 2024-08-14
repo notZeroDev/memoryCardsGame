@@ -3,12 +3,15 @@
   - timer
   - message to show winning or losing status
 */
+"use strict";
 const landing = document.querySelector(".landing");
 const menu = document.querySelector(".menu");
 const container = document.querySelector(".container");
 const cardsContainer = document.querySelector(".card-container");
 const menuButton = document.querySelector(".menu-button");
 const modeDescrip = document.querySelector(".description");
+const timerDisplay = document.querySelector(".timer");
+const triesDisplay = document.querySelector(".tries span");
 const icons = [
   "airplane",
   "bell",
@@ -29,9 +32,10 @@ const icons = [
 let score = 0,
   difficulty = 1,
   maxScore = 8,
-  timer = 20;
-rapid = false;
-gameRunning = true;
+  timer = 20,
+  timerInterval,
+  rapid = false,
+  gameRunning = true;
 //^ game logic
 // create an array with num length and duplicate each element
 const generateRanodmNumber = function (min, max) {
@@ -95,11 +99,23 @@ const gridStyle = function (x, y) {
 const changebg = function (color) {
   document.documentElement.style.setProperty("--main-color", color);
 };
-changeHeaderColor = function (iswhite) {
+const changeHeaderColor = function (iswhite) {
   document.documentElement.style.setProperty(
     "--header-color",
     `${iswhite ? "#fff" : "#1E201E"}`
   );
+};
+//^ DOM
+const timerFunction = function () {
+  if (timer === 0) {
+    endGame();
+  }
+  timerDisplay.textContent = timer--;
+};
+const startTimer = function (timeSecconds) {
+  timer = timeSecconds;
+  timerFunction();
+  timerInterval = setInterval(timerFunction, 1000);
 };
 const init = function (difficulty) {
   let number;
@@ -111,38 +127,50 @@ const init = function (difficulty) {
   // switching mode
   switch (difficulty) {
     case 0: // main screen
+      timer = 0;
       container.classList.add("hidden");
       landing.classList.remove("hidden");
       changebg("#1c1c1c");
       changeHeaderColor(true);
       break;
     case -1: //rapid
+      startTimer(200);
     case 1: // easy
+      // timerDisplay.textContent = timer;
+      // timerInterval = setInterval(function () {
+      //   timerDisplay.textContent = --timer;
+      // }, 1000);
+      if (!rapid) startTimer(30);
       number = 16;
       gridStyle(4, 4);
       changebg("#88d66c");
       changeHeaderColor(false);
       break;
     case 2: // medium
+      if (!rapid) startTimer(60);
       number = 20;
       changebg("#ffaf00");
       gridStyle(5, 4);
       changeHeaderColor(false);
       break;
     case 3: // hard
+      if (!rapid) startTimer(70);
       number = 30;
       changebg("#bd3131");
       gridStyle(6, 5);
       changeHeaderColor(false);
-      break;
-    case 5: // game end
-      init(0); //! will be replaced
       break;
   }
   maxScore = number / 2;
   createCards(number);
   fillCards(number);
   gameRunning = true;
+};
+const endGame = function () {
+  gameRunning = false;
+  clearInterval(timerInterval);
+  //^ add checking display winning or losing
+  console.log("game ended");
 };
 menu.addEventListener("click", function (e) {
   const button = e.target.closest(".button");
@@ -186,15 +214,16 @@ menu.addEventListener("mouseleave", (_) => {
   modeDescrip.textContent = "";
 });
 cardsContainer.addEventListener("click", function (e) {
-  const card = e.target.closest(".card");
-  // clasuer guard
-  if (!card || card.classList.contains("active")) return;
-  // game is not running is we checked two cards and want to stop the holding two cards
+  //!fix on end still clicking
   if (!gameRunning) {
     clearTimeout(checking);
     clearCards();
     gameRunning = true;
   }
+  const card = e.target.closest(".card");
+  // clasuer guard
+  if (!card || card.classList.contains("active")) return;
+  // game is not running is we checked two cards and want to stop the holding two cards
   if (!firstCard) {
     // selecting the first card
     firstCard = card;
@@ -206,14 +235,20 @@ cardsContainer.addEventListener("click", function (e) {
     gameRunning = false; // stop the game until we checks
     if (firstCard.dataset.value === secondCard.dataset.value) {
       score++;
-      if (score === maxScore) {
+      //! return it
+      if (score === 1) {
         // End of the game
         gameRunning = false;
+        if (!rapid || difficulty === 3) clearInterval(timerFunction);
+        // if (!rapid || difficulty === 3) {
+        //   endGame();
+        // }
         setTimeout(function () {
           //*end round
           // resetGame();
-          if (rapid) init(++difficulty); // will increase difficulty by one
-          else init(0); // return to main menu
+          if (!rapid || difficulty === 3) endGame();
+          else init(++difficulty); // will increase difficulty by one
+          // else endGame(); // return to main menu
           // window.location.reload();
         }, 1000);
       }
@@ -227,6 +262,10 @@ cardsContainer.addEventListener("click", function (e) {
     }
   }
 });
-menuButton.addEventListener("click", (_) => init(0));
+menuButton.addEventListener("click", (_) => {
+  gameRunning = false;
+  clearInterval(timerInterval);
+  init(0);
+});
 // staring game
 init(0);
