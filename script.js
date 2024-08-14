@@ -90,7 +90,7 @@ const resetGame = function () {
   cardsContainer.innerHTML = "";
   resetCards();
   score = 0;
-  if (!rapid) tries = 0;
+  // if (!rapid) tries = 0;
 };
 //^ style functions
 const gridStyle = function (x, y) {
@@ -130,6 +130,7 @@ const init = function (difficulty) {
   switch (difficulty) {
     case 0: // main screen
       timer = 0;
+      tries = 0;
       container.classList.add("hidden");
       landing.classList.remove("hidden");
       changebg("#1c1c1c");
@@ -168,11 +169,15 @@ const init = function (difficulty) {
   fillCards(number);
   gameRunning = true;
 };
-const endGame = function () {
+const endGame = function (iswinning = false) {
   gameRunning = false;
   clearInterval(timerInterval);
   //^ add checking display winning or losing
-  console.log("game ended");
+  if (iswinning) {
+    console.log("you have won");
+  } else {
+    console.log("lost");
+  }
 };
 menu.addEventListener("click", function (e) {
   const button = e.target.closest(".button");
@@ -250,7 +255,7 @@ cardsContainer.addEventListener("click", function (e) {
         //   endGame();
         // }
         if (!rapid || difficulty === 3) {
-          endGame();
+          endGame(true);
         } else {
           setTimeout(function () {
             //*end round
