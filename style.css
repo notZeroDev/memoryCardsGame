@@ -18,7 +18,7 @@ body {
   margin: 0;
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
+  /* overflow: hidden; */
   background-color: var(--main-color);
   transition: background 1s;
 }
@@ -63,20 +63,20 @@ body > div {
   border-radius: 10px;
   cursor: pointer;
 }
-.landing .description{
+.landing .description {
   /* background-color: #fff; */
   height: 10vh;
   font-size: 1.4rem;
-  color: #E5D283;
+  color: #e5d283;
   text-transform: capitalize;
 }
 /*game board*/
 .container {
   overflow: hidden;
- /*^ we may replace it with grid */
+  /*^ we may replace it with grid */
   display: flex;
-  flex-direction:row ;
-  justify-content:space-evenly;
+  flex-direction: row;
+  justify-content: space-evenly;
   align-items: center;
   background-position: left;
   /* transition: background 1s; */
@@ -135,7 +135,7 @@ body > div {
   transform: rotateY(180deg);
 }
 /* side menu */
-.container .side-menu{
+.container .side-menu {
   /* background-color: #fff; */
   color: #000;
   height: -webkit-fill-available;
@@ -144,13 +144,13 @@ body > div {
   place-items: center;
   justify-content: center;
 }
-.container .timer{
+.container .timer {
   font-size: 10rem;
 }
-.container .tries{
+.container .tries {
   font-size: 3rem;
 }
-.container .menu-button{
+.menu-button {
   height: 3rem;
   width: 15rem;
   font-size: 1.5rem;
@@ -162,4 +162,44 @@ body > div {
   place-items: center;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.message {
+  font-size: 2rem;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  /* background-color: #fff; */
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  animation: show-message 500ms linear 250ms forwards;
+  z-index: 99;
+}
+.message .overlay {
+  background-color: #000;
+  opacity: 80%;
+  height: 100%;
+  width: 100%;
+}
+.body {
+  box-sizing: border-box;
+  position: absolute;
+  color: #1c1c1c;
+  text-transform: capitalize;
+  background-color: #ffae00;
+  height: 100%;
+  min-width: 50%;
+  padding: 20px;
+  display: grid;
+  grid-template-rows: 3fr 5fr 2fr;
+  justify-content: center;
+  place-items: center;
+  text-align: center;
+}
+@keyframes show-message {
+  to{
+    opacity: 100;
+  } 
 }

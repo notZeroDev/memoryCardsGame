@@ -7,10 +7,14 @@ const landing = document.querySelector(".landing");
 const menu = document.querySelector(".menu");
 const container = document.querySelector(".container");
 const cardsContainer = document.querySelector(".card-container");
-const menuButton = document.querySelector(".menu-button");
+const menuButton = document.querySelectorAll(".menu-button");
 const modeDescrip = document.querySelector(".description");
 const timerDisplay = document.querySelector(".timer");
 const triesDisplay = document.querySelector(".tries span");
+
+const message = document.querySelector(".message");
+const messageHeader = message.querySelector("h1");
+const messageDetail = message.querySelector("h2");
 const icons = [
   "airplane",
   "bell",
@@ -31,8 +35,10 @@ const icons = [
 let score = 0,
   tries = 0,
   difficulty = 1,
+  mode = "easy",
   maxScore = 8,
   timer = 20,
+  maxTimer = 20,
   timerInterval,
   rapid = false,
   gameRunning = true;
@@ -124,6 +130,9 @@ const init = function (difficulty) {
   resetGame();
   container.classList.remove("hidden");
   landing.classList.add("hidden");
+  message.classList.add("hidden");
+  messageHeader.textContent = "";
+  messageDetail.textContent = "";
   modeDescrip.textContent = "";
   triesDisplay.textContent = tries;
   // switching mode
@@ -137,27 +146,41 @@ const init = function (difficulty) {
       changeHeaderColor(true);
       break;
     case -1: //rapid
-      startTimer(200);
+      mode = "rapid";
+      maxTimer = 150;
+      startTimer(150);
     case 1: // easy
       // timerDisplay.textContent = timer;
       // timerInterval = setInterval(function () {
       //   timerDisplay.textContent = --timer;
       // }, 1000);
-      if (!rapid) startTimer(40);
+      if (!rapid) {
+        mode = "easy";
+        maxTimer = 40;
+        startTimer(40);
+      }
       number = 16;
       gridStyle(4, 4);
       changebg("#88d66c");
       changeHeaderColor(false);
       break;
     case 2: // medium
-      if (!rapid) startTimer(60);
+      if (!rapid) {
+        mode = "medium";
+        maxTimer = 60;
+        startTimer(60);
+      }
       number = 20;
       changebg("#ffaf00");
       gridStyle(5, 4);
       changeHeaderColor(false);
       break;
     case 3: // hard
-      if (!rapid) startTimer(70);
+      if (!rapid) {
+        mode = "easy";
+        maxTimer = 70;
+        startTimer(70);
+      }
       number = 30;
       changebg("#bd3131");
       gridStyle(6, 5);
@@ -173,10 +196,17 @@ const endGame = function (iswinning = false) {
   gameRunning = false;
   clearInterval(timerInterval);
   //^ add checking display winning or losing
+  message.classList.remove("hidden");
   if (iswinning) {
-    console.log("you have won");
+    messageHeader.textContent = "great work";
+    messageDetail.innerHTML = `
+      you beat ${mode} mode in <br>
+      ${maxTimer - timer - 1} seconds <br>
+      ${tries} tries
+      `;
   } else {
-    console.log("lost");
+    messageHeader.textContent = "hard luck";
+    messageDetail.textContent = "try again";
   }
 };
 menu.addEventListener("click", function (e) {
@@ -189,7 +219,6 @@ menu.addEventListener("click", function (e) {
 menu.addEventListener("mousemove", function (e) {
   const button = e.target.closest(".button");
   if (!button) {
-    //! DRY
     modeDescrip.textContent = "";
     return;
   }
@@ -247,7 +276,6 @@ cardsContainer.addEventListener("click", function (e) {
       if (score === maxScore) {
         // End of the game
         gameRunning = false;
-        // if (!rapid || difficulty === 3) {
         clearInterval(timerFunction);
         // console.log(timer);
         // }
@@ -255,6 +283,7 @@ cardsContainer.addEventListener("click", function (e) {
         //   endGame();
         // }
         if (!rapid || difficulty === 3) {
+          // setTimeout(endGame, 500, true);
           endGame(true);
         } else {
           setTimeout(function () {
@@ -276,10 +305,12 @@ cardsContainer.addEventListener("click", function (e) {
     }
   }
 });
-menuButton.addEventListener("click", (_) => {
-  gameRunning = false;
-  clearInterval(timerInterval);
-  init(0);
-});
+menuButton.forEach((button) =>
+  button.addEventListener("click", (_) => {
+    gameRunning = false;
+    clearInterval(timerInterval);
+    init(0);
+  })
+);
 // staring game
 init(0);
