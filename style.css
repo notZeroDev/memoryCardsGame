@@ -221,7 +221,7 @@ body > div {
   color: #1c1c1c;
   text-transform: capitalize;
   background-color: #ffae00;
-  height: 100%;
+  height: 100vh;
   width: 50%;
   padding: 20px;
   display: grid;
