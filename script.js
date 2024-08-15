@@ -92,7 +92,6 @@ const resetGame = function () {
   cardsContainer.innerHTML = "";
   resetCards();
   score = 0;
-  // if (!rapid) tries = 0;
 };
 //^ style functions
 const gridStyle = function (x, y) {
@@ -120,9 +119,10 @@ const startTimer = function (timeSecconds) {
   timerFunction();
   timerInterval = setInterval(timerFunction, 1000);
 };
-const init = function (difficulty) {
+const init = function (menuMode) {
   let number;
   // reset values
+  // if (!rapid) tries = 0;
   resetGame();
   container.classList.remove("hidden");
   landing.classList.add("hidden");
@@ -131,10 +131,10 @@ const init = function (difficulty) {
   messageDetail.textContent = "";
   modeDescrip.textContent = "";
   triesDisplay.textContent = tries;
+  difficulty = menuMode;
   // switching mode
-  switch (difficulty) {
+  switch (menuMode) {
     case 0: // main screen
-      timer = 0;
       tries = 0;
       container.classList.add("hidden");
       landing.classList.remove("hidden");
@@ -142,6 +142,7 @@ const init = function (difficulty) {
       changeHeaderColor(true);
       break;
     case -1: //rapid
+      difficulty = 1;
       mode = "rapid";
       maxTimer = 150;
       startTimer(150);
@@ -169,7 +170,7 @@ const init = function (difficulty) {
       break;
     case 3: // hard mode
       if (!rapid) {
-        mode = "easy";
+        mode = "hard";
         maxTimer = 70;
         startTimer(70);
       }
@@ -198,10 +199,18 @@ const endGame = function (iswinning = false) {
       `;
   } else {
     messageHeader.textContent = "hard luck";
-    messageDetail.textContent = "try again";
+    // messageDetail.textContent = "try again";
+    const tryAgain = document.createElement("span");
+    tryAgain.textContent = "try again";
+    messageDetail.appendChild(tryAgain);
+    tryAgain.addEventListener("click", (_) => {
+      if (rapid) {
+        tries = 0;
+        init(-1);
+      } else init(difficulty);
+    });
   }
 };
-
 
 //^ event handlers
 
@@ -275,7 +284,8 @@ cardsContainer.addEventListener("click", function (e) {
         // End of the game
         gameRunning = false;
         clearInterval(timerFunction);
-        if (!rapid || difficulty === 3) { // game winnig
+        if (!rapid || difficulty === 3) {
+          // game winnig
           endGame(true);
         } else {
           setTimeout(function () {

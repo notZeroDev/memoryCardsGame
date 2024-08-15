@@ -209,6 +209,10 @@ body > div {
   animation: show-message 500ms linear 250ms forwards;
   z-index: 99;
 }
+.message .body h2 span{
+text-decoration: underline;
+cursor: pointer;
+}
 .message .overlay {
   background-color: #000;
   opacity: 80%;
